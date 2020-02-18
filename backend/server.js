@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const config = require('config');
 
 // Routes
-const vendors = require('./routes/api/vendors');
+const users = require('./routes/api/users');
 const products = require('./routes/api/products');
 
 const app = express()
@@ -20,7 +20,7 @@ mongoose.connect(db,{
     .catch(err => console.log(err));
  
 
-app.use('/api/vendors', vendors);
+app.use('/api/users', users);
 app.use('/api/products', products);
 
 const port = process.env.port || 5000;

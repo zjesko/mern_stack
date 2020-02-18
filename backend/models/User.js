@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
-const VendorSchema = new Schema({
+const UserSchema = new Schema({
     name: {
         type: String,
         required: true
@@ -15,10 +15,14 @@ const VendorSchema = new Schema({
         type: String,
         required: true
     },
+    rating: {
+        type: Number,
+        default: 0
+    },
     created_on: {
         type: Date,
         default: Date.now
     },
 });
 
-module.exports = Vendor = mongoose.model('Vendor', VendorSchema);
+module.exports = User = mongoose.model('User', UserSchema);
