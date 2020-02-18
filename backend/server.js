@@ -1,20 +1,27 @@
 const express = require('express');
 const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
+const config = require('config');
 
+// Routes
 const vendors = require('./routes/api/vendors');
+const products = require('./routes/api/products');
 
 const app = express()
 
-app.use(bodyParser.json())
+app.use(express.json())
 
-const db = require('./config/keys').mongoURI;
-mongoose.connect(db)
+const db = config.get('mongoURI');
+mongoose.connect(db,{
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true
+})
     .then(() => console.log("Mongo Connected..."))
     .catch(err => console.log(err));
  
 
 app.use('/api/vendors', vendors);
+app.use('/api/products', products);
 
 const port = process.env.port || 5000;
 
