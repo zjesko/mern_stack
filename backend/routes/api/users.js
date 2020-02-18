@@ -15,19 +15,22 @@ router.get('/', (req, res) => {
 // @route POST api/users - Create a user
 // @access Public
 router.post('/', (req, res) => {
-    const { name, email, password } = req.body
+    const { name, email, password, vendor } = req.body
+    console.log(vendor)
     if (!name || !email || !password){
         return res.status(400).json({ msg: "Please enter all fields" });
     }
     User.findOne({ email })
         .then(user => {
             if(user) return res.status(400).json({ msg: "User already exists" });
+            
             const newUser = new User({
                 name: name,
                 email: email,
                 password: password,
+                vendor: vendor,
             });
-
+            console.log(newUser)
             bcyrpt.genSalt(10, (err, salt) => {
                 bcyrpt.hash(newUser.password, salt, (err, hash) => {
                     if (err) throw err;
@@ -40,14 +43,7 @@ router.post('/', (req, res) => {
                                 { expiresIn: 31536000 },
                                 (err, token) => {
                                     if(err) throw err
-                                    res.status(200).json({
-                                        token,
-                                        user: {
-                                            id: user.id,
-                                            name: user.name,
-                                            email: user.email
-                                        }
-                                    }); 
+                                    res.status(200).json({token, newUser}); 
                                 }
                             )
                         });
@@ -95,14 +91,7 @@ router.post('/login', (req, res) => {
                         { expiresIn: 31536000 },
                         (err, token) => {
                             if(err) throw err
-                            res.status(200).json({
-                                token,
-                                user: {
-                                    id: user.id,
-                                    name: user.name,
-                                    email: user.email
-                                }
-                            }); 
+                            res.status(200).json({token ,user}); 
                         }
                     )
                 })

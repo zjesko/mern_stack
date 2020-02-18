@@ -23,6 +23,10 @@ const UserSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    vendor: {
+        type: Boolean,
+        required: true
+    }
 });
 
 module.exports = User = mongoose.model('User', UserSchema);
