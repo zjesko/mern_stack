@@ -26,6 +26,9 @@ const UserSchema = new Schema({
     vendor: {
         type: Boolean,
         required: true
+    },
+    reviews: {
+        type: String,
     }
 });
 

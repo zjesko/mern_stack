@@ -5,6 +5,7 @@ const config = require('config');
 // Routes
 const users = require('./routes/api/users');
 const products = require('./routes/api/products');
+const orders = require('./routes/api/orders');
 
 const app = express()
 
@@ -22,6 +23,7 @@ mongoose.connect(db,{
 
 app.use('/api/users', users);
 app.use('/api/products', products);
+app.use('/api/orders', orders);
 
 const port = process.env.port || 5000;
 

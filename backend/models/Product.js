@@ -14,10 +14,21 @@ const ProductSchema = new Schema({
         type: Number,
         required: true
     },
-    dispatch: {
-        type: Boolean,
-        default: false
-    }
+    vendor: {
+        type: Schema.Types.ObjectId, ref: 'User',
+        required: true
+    },
+    status:{
+        type: String,
+        default: "waiting"
+    },
+    rating:{
+        type: [Number],
+        default: []
+    },
+    review:{
+        type: String,
+    },
 });
 
-module.exports = Product = mongoose.model('Pendor', ProductSchema);
+module.exports = Product = mongoose.model('Product', ProductSchema);
