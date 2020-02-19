@@ -16,8 +16,8 @@ const UserSchema = new Schema({
         required: true
     },
     rating: {
-        type: Number,
-        default: 0
+        type: [Number],
+        default: []
     },
     created_on: {
         type: Date,

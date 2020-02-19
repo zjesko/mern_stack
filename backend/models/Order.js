@@ -13,10 +13,6 @@ const OrderSchema = new Schema({
     quantity: {
         type: Number,
         required: true
-    },
-    status:{
-        type: String,
-        default: "waiting"
     }
 });
 

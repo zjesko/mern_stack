@@ -2,13 +2,17 @@ const router = require('express').Router();
 const Product = require('../../models/Product');
 const User = require('../../models/User');
 const auth = require('../../middleware/auth');
+const FuzzySearch = require('fuzzy-search');
 
 // @route GET api/products - Get All products
 // @access Vendors / Customers
 router.get('/', auth, (req, res) => {
     Product.find()
         .sort([[req.query.sort_by , req.query.asc]])
-        .then(data => res.status(200).json(data));
+        .then(data => {
+            const searcher = new FuzzySearch(data, ['name'])
+            res.status(200).json(searcher.search(req.query.search));
+        })
 });
 
 // @route GET api/products - Get All products

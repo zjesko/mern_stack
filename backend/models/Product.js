@@ -28,6 +28,7 @@ const ProductSchema = new Schema({
     },
     review:{
         type: String,
+        default: []
     },
 });
 

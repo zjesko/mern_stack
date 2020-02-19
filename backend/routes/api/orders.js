@@ -7,8 +7,9 @@ const auth = require('../../middleware/auth');
 // @route GET api/orders - Get All orders
 // @access Customer only
 router.get('/', auth, (req, res) => {
-    Order.find({customer: req.user.id})
-        .then(data => res.status(200).json(data));
+    Order.find({customer: req.user.id}).populate({
+        path: "product"
+    }).then(data => res.status(200).json(data));
 });
 
 // @route POST api/orders - Create a order
@@ -34,16 +35,16 @@ router.post('/', auth, (req, res) => {
 router.post('/rate_product', auth, (req, res) => {
     Product.updateOne({ _id: req.body.id, status: "dispatched"}, {$push: {rating: req.body.rating}}, function (err){
         if (err) return console.error(err);
-    })
-    Product.updateOne({ _id: req.body.id, status: "dispatched"}, {$set: {review: req.body.review}}, function (err){
+    }).then(data => res.json(data))
+    Product.updateOne({ _id: req.body.id, status: "dispatched"}, {$push: {review: req.body.review}}, function (err){
         if (err) return console.error(err);
-    })
+    }).then(data => res.json(data))
 });
 
 router.post('/rate_vendor', auth, (req, res) => {
-    Vendor.updateOne({ _id: req.body.id, status: "placed"}, {$push: {rating: req.body.rating}}, function (err){
+    User.updateOne({ _id: req.body.id }, {$push: {rating: req.body.rating}}, function (err){
         if (err) return console.error(err);
-    })
+    }).then(data => res.json(data))
 });
 
 // @route GET api/orders/:id - Get a order
