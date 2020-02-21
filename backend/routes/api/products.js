@@ -18,7 +18,7 @@ router.get('/', auth, (req, res) => {
 // @route GET api/products - Get All products
 // @access Vendors
 router.get('/:status', auth, (req, res) => {
-    Product.find({status: req.params.status})
+    Product.find({status: req.params.status, vendor: req.user.id})
         .then(data => res.status(200).json(data));
 });
 
@@ -45,7 +45,7 @@ router.get('/:id', auth, (req, res) => {
 
 // @route GET api/products/:id - Get a product
 // @access Vendors
-router.put('/:id', auth, (req, res) => {
+router.post('/:id', auth, (req, res) => {
     Product.updateOne({ _id: req.params.id, status: "placed"}, {$set: {'status': "dispatched"}})
         .then(data => res.status(200).json({ msg: "product dispatched" }))
         .catch(err => res.status(404).json({error: "Error, Product not placed"}))
@@ -54,7 +54,7 @@ router.put('/:id', auth, (req, res) => {
 // @route DELETE api/products/:id - Delete a product
 // @access Public
 router.delete('/:id', auth, (req, res) => {
-    Vendor.updateOne({ _id: req.params.id }, {$set: {status: "cancelled"}}, function (err){
+    Product.updateOne({ _id: req.params.id }, {$set: {status: "cancelled"}}, function (err){
         if (err) return console.error(err);
     })
 });

@@ -1,15 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const config = require('config');
+const cors = require('cors');
 
 // Routes
 const users = require('./routes/api/users');
 const products = require('./routes/api/products');
 const orders = require('./routes/api/orders');
 
-const app = express()
+const app = express();
 
-app.use(express.json())
+app.use(cors());
+app.use(express.json());
 
 const db = config.get('mongoURI');
 mongoose.connect(db,{
